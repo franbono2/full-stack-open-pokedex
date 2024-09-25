@@ -70,6 +70,7 @@ jobs:
                   "content": "Deploy successfully",
                   "embeds": [
                     {
+                      "title": "Deploy successfully!",
                       "color": 42320
                     }
                   ]
@@ -86,6 +87,7 @@ jobs:
                   "content": "Build failed",
                   "embeds": [
                     {
+                      "title": "Build failed"
                       "color": 16711680
                     }
                   ]
