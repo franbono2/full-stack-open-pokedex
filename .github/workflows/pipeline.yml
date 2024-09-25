@@ -60,6 +60,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Success
+        if: success()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_EMBEDS: |
@@ -71,11 +72,13 @@ jobs:
                 }
               ]
             }
-        uses: Ilshidur/action-discord@master
-        if: success()
-        with:
-          args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed."
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"Deploy successfull!\", \"embeds\": $DISCORD_EMBEDS}" \
+            $DISCORD_WEBHOOK
       - name: Failure
+        if: failure()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_EMBEDS: |
@@ -87,7 +90,8 @@ jobs:
                 }
               ]
             }
-        uses: Ilshidur/action-discord@master
-        if: failure()
-        with:
-          args: "Build failed"
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"Deploy successfull!\", \"embeds\": $DISCORD_EMBEDS}" \
+            $DISCORD_WEBHOOK
