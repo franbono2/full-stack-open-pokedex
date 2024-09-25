@@ -32,7 +32,7 @@ jobs:
           wait-on: http://localhost:5000
       - name: Deploy
         # Only run this step if the branch is main and if it is not a pull request
-        if: github.ref == 'refs/heads/main' &&  github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main' &&  github.event_name != 'pull_request' && !contains(github.event.head_commit.message, '#skip')
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
@@ -40,7 +40,7 @@ jobs:
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/main' &&  github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' &&  github.event_name != 'pull_request' && !contains(github.event.head_commit.message, '#skip')
     steps:
       - uses: actions/checkout@v4
       - name: Bump version and push tag
