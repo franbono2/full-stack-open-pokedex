@@ -62,6 +62,15 @@ jobs:
       - name: Success
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: |
+            {
+              "embeds": [
+                {
+                  "title": "Deploy succesfull",
+                  "color": 65280
+                }
+              ]
+            }
         uses: Ilshidur/action-discord@master
         if: success()
         with:
@@ -69,6 +78,15 @@ jobs:
       - name: Failure
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: |
+            {
+              "embeds": [
+                {
+                  "title": "Build failed",
+                  "color": 16711680
+                }
+              ]
+            }
         uses: Ilshidur/action-discord@master
         if: failure()
         with:
