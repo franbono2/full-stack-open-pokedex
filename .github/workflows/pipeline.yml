@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
+  build:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
@@ -30,6 +30,11 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
+
+  simple_deployment_pipeline:
+    needs: [build]
+    runs-on: ubuntu-20.04
+    steps:
       - name: Deploy
         # Only run this step if the branch is main and if it is not a pull request
         if: github.ref == 'refs/heads/main' &&  github.event_name != 'pull_request' && !contains(github.event.head_commit.message, '#skip')
