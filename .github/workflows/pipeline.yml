@@ -63,35 +63,31 @@ jobs:
         if: success()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_EMBEDS: |
-            {
-              "embeds": [
-                {
-                  "title": "Deploy succesfull",
-                  "color": 65280
-                }
-              ]
-            }
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"Deploy successfull!\", \"embeds\": $DISCORD_EMBEDS}" \
+            -d '{
+                  "content": "Deploy successfully",
+                  "embeds": [
+                    {
+                      "color": 42320
+                    }
+                  ]
+                }' \
             $DISCORD_WEBHOOK
       - name: Failure
         if: failure()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_EMBEDS: |
-            {
-              "embeds": [
-                {
-                  "title": "Build failed",
-                  "color": 16711680
-                }
-              ]
-            }
         run: |
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"Deploy successfull!\", \"embeds\": $DISCORD_EMBEDS}" \
+            -d '{
+                  "content": "Build failed",
+                  "embeds": [
+                    {
+                      "color": 16711680
+                    }
+                  ]
+                }' \
             $DISCORD_WEBHOOK
